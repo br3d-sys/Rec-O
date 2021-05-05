@@ -14,6 +14,7 @@ class UsersTableSeeder extends Seeder
                 'email'          => 'admin@admin.com',
                 'password'       => '$2y$10$GuEZ22bDayU6ubtlCOQ9M.WA/hcaTgcVsBSnCMLgxX/I6ysnC5UXW',
                 'remember_token' => null,
+                'image'          => 'sdf55df566s',
             ],
         ];
 

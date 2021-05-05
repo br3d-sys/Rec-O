@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
 
             $table->string('remember_token')->nullable();
 
+            $table->longText('image');
+
             $table->timestamps();
 
             $table->softDeletes();
