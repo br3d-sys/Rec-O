@@ -13,10 +13,12 @@ Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
     Route::get('start-test', 'TestsController@start')->name('starttest');
     Route::get('recfacial', 'RecfacialController@index')->name('recfacial');
     Route::post('recfacial', 'RecfacialController@reco')->name('recfacial.reco');
+    Route::get('req03', 'Req03Controller@index')->name('req03');
     Route::get('test', 'TestsController@index')->name('test');
     Route::post('test', 'TestsController@store')->name('test.store');
     Route::get('results/{result_id}', 'ResultsController@show')->name('results.show');
     Route::get('send/{result_id}', 'ResultsController@send')->name('results.send');
+    
 });
 
 Auth::routes();
@@ -51,4 +53,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Results
     Route::delete('results/destroy', 'ResultsController@massDestroy')->name('results.massDestroy');
     Route::resource('results', 'ResultsController');
+
+
+    
+    Route::get('recognitions/req05', 'RecognitionController@req05')->name('recognitions.req05');
+
 });
