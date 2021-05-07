@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Recognition extends Model
 {
@@ -18,7 +19,9 @@ class Recognition extends Model
 
     protected $fillable = [
         'id_usuario',
-        'intento',
+        'attempt',
+        'similarity',
+        'image',
         'created_at',
         'updated_at',
         'deleted_at',

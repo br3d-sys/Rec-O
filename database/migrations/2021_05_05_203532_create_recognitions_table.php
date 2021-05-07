@@ -17,8 +17,11 @@ class CreateRecognitionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('id_usuario');
             $table->foreign('id_usuario')->references('id')->on('users');
-            $table->integer('intentos');
+            $table->integer('attempt');
+            $table->integer('similarity');
+            $table->longText('image');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

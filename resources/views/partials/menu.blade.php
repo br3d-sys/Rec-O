@@ -100,6 +100,14 @@
                     {{ trans('global.logout') }}
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route("admin.recognitions.req05") }}" class="nav-link">
+                    <i class="nav-icon fas fa-vector-square">
+
+                    </i>
+                    Usuarios Identificados
+                </a>
+            </li>
         </ul>
 
     </nav>

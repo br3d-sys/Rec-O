@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
 
             $table->longText('image');
 
+            $table->integer('intentos')->default(3);
+
             $table->timestamps();
 
             $table->softDeletes();

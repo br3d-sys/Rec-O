@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Recognition;
 use Illuminate\Http\Request;
 
 class RecfacialController extends Controller
@@ -38,12 +39,43 @@ class RecfacialController extends Controller
             $array_result = $result->toArray();
 
             if(count($array_result["FaceMatches"])>0){
-                return json_encode(["val"=> $array_result["FaceMatches"][0]["Similarity"],"href"=>"/test"]);
+                $valor_redondeado = round($array_result["FaceMatches"][0]["Similarity"]);
+                    
+                $recognition = new Recognition();
+                $recognition->id_usuario = auth()->user()->id;
+                $recognition->attempt = auth()->user()->intentos;
+                $recognition->similarity = $valor_redondeado;
+                $recognition->image = $request->img_bytes;
+
+                $recognition->save();
+
+                return json_encode(["val"=> $valor_redondeado,"href"=>"/req03"]);
+
             }else{
-                return json_encode(["val"=>"0.00","href"=>"/recfacial"]);
+                
+                $valor_redondeado = round($array_result["FaceMatches"][0]["Similarity"]);
+                    
+                $recognition = new Recognition();
+                $recognition->id_usuario = auth()->user()->id;
+                $recognition->attempt = auth()->user()->intentos;
+                $recognition->similarity = $valor_redondeado;
+                $recognition->image = $request->img_bytes;
+
+                $recognition->save();
+
+                return json_encode(["val"=>"0.00","href"=>"/req03"]);
             }
         } catch (\Throwable $th) {
-            return json_encode(["val"=>"0.00","href"=>"/recfacial"]);
+
+                $recognition = new Recognition();
+                $recognition->id_usuario = auth()->user()->id;
+                $recognition->attempt = auth()->user()->intentos;
+                $recognition->similarity = 0.00;
+                $recognition->image = $request->img_bytes;
+
+                $recognition->save();
+
+            return json_encode(["val"=>"0.00","href"=>"/req03"]);
         }
        
     }
