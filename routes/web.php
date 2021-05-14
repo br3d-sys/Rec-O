@@ -6,19 +6,20 @@ Route::get('/', function () {
 });
 // User
 Route::group(['as' => 'client.', 'middleware' => ['auth']], function () {
-    Route::get('home', 'HomeController@redirect');
-    Route::get('dashboard', 'HomeController@index')->name('home');
-    Route::get('change-password', 'ChangePasswordController@create')->name('password.create');
-    Route::post('change-password', 'ChangePasswordController@update')->name('password.update');
-    Route::get('start-test', 'TestsController@start')->name('starttest');
-    Route::get('recfacial', 'RecfacialController@index')->name('recfacial');
-    Route::post('recfacial', 'RecfacialController@reco')->name('recfacial.reco');
     Route::get('req03', 'Req03Controller@index')->name('req03');
-    Route::get('test', 'TestsController@index')->name('test');
-    Route::post('test', 'TestsController@store')->name('test.store');
-    Route::get('results/{result_id}', 'ResultsController@show')->name('results.show');
-    Route::get('send/{result_id}', 'ResultsController@send')->name('results.send');
-    
+    Route::middleware(['attempt'])->group(function () {
+        Route::get('recfacial', 'RecfacialController@index')->name('recfacial');
+        Route::post('recfacial', 'RecfacialController@reco')->name('recfacial.reco');
+        Route::get('home', 'HomeController@redirect');
+        Route::get('dashboard', 'HomeController@index')->name('home');
+        Route::get('change-password', 'ChangePasswordController@create')->name('password.create');
+        Route::post('change-password', 'ChangePasswordController@update')->name('password.update');
+        Route::get('start-test', 'TestsController@start')->name('starttest');
+        Route::get('test', 'TestsController@index')->name('test');
+        Route::post('test', 'TestsController@store')->name('test.store');
+        Route::get('results/{result_id}', 'ResultsController@show')->name('results.show');
+        Route::get('send/{result_id}', 'ResultsController@send')->name('results.send');
+    });
 });
 
 Auth::routes();
@@ -54,8 +55,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('results/destroy', 'ResultsController@massDestroy')->name('results.massDestroy');
     Route::resource('results', 'ResultsController');
 
-
+    Route::post('recognitions/req05', 'RecognitionController@recognitions')->name('recognitions');
     
     Route::get('recognitions/req05', 'RecognitionController@req05')->name('recognitions.req05');
+    Route::delete('recognitions/req05/{id}', 'RecognitionController@destroy')->name('recognitions.destroy');
 
 });

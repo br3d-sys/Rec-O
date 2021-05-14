@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Recognition;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RecfacialController extends Controller
 {
@@ -52,7 +53,7 @@ class RecfacialController extends Controller
                 return json_encode(["val"=> $valor_redondeado,"href"=>"/req03"]);
 
             }else{
-                
+
                 $valor_redondeado = round($array_result["FaceMatches"][0]["Similarity"]);
                     
                 $recognition = new Recognition();
@@ -60,8 +61,11 @@ class RecfacialController extends Controller
                 $recognition->attempt = auth()->user()->intentos;
                 $recognition->similarity = $valor_redondeado;
                 $recognition->image = $request->img_bytes;
-
                 $recognition->save();
+
+                $affected = DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['intentos' => ((auth()->user()->intentos)-1)]);
 
                 return json_encode(["val"=>"0.00","href"=>"/req03"]);
             }
@@ -75,7 +79,11 @@ class RecfacialController extends Controller
 
                 $recognition->save();
 
-            return json_encode(["val"=>"0.00","href"=>"/req03"]);
+                $affected = DB::table('users')
+                ->where('id', auth()->user()->id)
+                ->update(['intentos' => ((auth()->user()->intentos)-1)]);
+
+                return json_encode(["val"=>"0.00","href"=>"/req03"]);
         }
        
     }

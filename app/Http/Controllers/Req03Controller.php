@@ -12,7 +12,8 @@ class Req03Controller extends Controller
         $recognition = Recognition::latest()
         ->take(1)
         ->get();
+        $intentos = auth()->user()->intentos;
 
-        return view('client.req03',compact('recognition'));
+        return view('client.req03',compact('recognition','intentos'));
     }
 }

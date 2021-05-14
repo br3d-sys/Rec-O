@@ -14,25 +14,44 @@
             </div>
         
             <div class="card-body">
-                <p>
-                Grado de Similitud: {{$recognition[0]->similarity}}
-                <br>
-                Intento: {{$recognition[0]->attempt}}
-                <br>
-                Fecha y Hora: {{$recognition[0]->updated_at}}
-            </p>
+                
+                <div class="d-flex justify-content-between"><h4><strong>Grado de Similitud:</strong></h4> <h4>{{$recognition[0]->similarity}}%</h4></div>
+                
+                <div class="d-flex justify-content-between"><h4><strong>Intentos Restantes:</strong></h4> <h4>{{$intentos}}</h4></div>
+                
+                <div class="d-flex justify-content-between"><h4><strong>Fecha y Hora:</strong></h4> <h4>{{date_format($recognition[0]->updated_at,"d:m:Y h:i:s")}}</h4></div>
+            
+                
+
             </div>
-            @if ($recognition[0]->similarity>90)
-                <div class="d-flex justify-content-between py-3 px-5">
-                <div class="bg-green p-2">Validación Exitosa</div>
-                <a class="btn btn-primary" href="/dashboard">Continuar</a>
-            </div>
+                
+            
+            @if ( (($recognition[0]->attempt)-1) > 0 )
+                @if ($recognition[0]->similarity>90)
+                    <div class="d-flex justify-content-between py-3 px-5">
+                        <div class="bg-green p-2">Validación Exitosa</div>
+                        <a class="btn btn-primary" href="/dashboard">Continuar</a>
+                    </div>
+                @else
+                    <div class="d-flex justify-content-between py-3 px-5">
+                        <div class="bg-red p-2">Validación Fallida</div>
+                        <a class="btn btn-primary" href="/recfacial">Continuar</a>
+                    </div>
+                @endif
             @else
+                <div class="alert alert-danger mx-4" role="alert">
+                    <strong>Alerta!</strong> Terminó los intentos disponibles, solicite el acceso a su docente.
+                </div>
                 <div class="d-flex justify-content-between py-3 px-5">
                     <div class="bg-red p-2">Validación Fallida</div>
-                    <a class="btn btn-primary" href="/recfacial">Continuar</a>
+                    <form action="{{route('logout')}}" method="post">
+                        @csrf
+                        <button class="btn btn-primary" type="submit">Continuar</button>
+                    </form>
                 </div>
             @endif
+            
+            
         </div>
     </div>
 </div>
